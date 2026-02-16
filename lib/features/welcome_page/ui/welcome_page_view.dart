@@ -60,32 +60,7 @@ class WelcomePageView extends StatelessWidget {
                   SizedBox(height: 500,), 
                   
                   
-                  Padding(
-                    padding: const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 30.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        
-                        
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1B432D),
-                        foregroundColor: Colors.white, 
-                        minimumSize: const Size(double.infinity, 55), 
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0), 
-                        ),
-                        elevation: 4, 
-                      ),
-                      child: const Text(
-                        'Entrar',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.0,
-                        ),
-                      ),
-                    ),
-                  ),
+                  
                 ],
               ),
             ),
