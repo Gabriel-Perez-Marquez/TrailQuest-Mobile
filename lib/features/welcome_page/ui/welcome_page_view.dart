@@ -1,7 +1,26 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:trailquest_mobile/features/login/ui/login_view.dart';
 
-class WelcomePageView extends StatelessWidget {
+class WelcomePageView extends StatefulWidget {
   const WelcomePageView({super.key});
+
+  @override
+  State<WelcomePageView> createState() => _WelcomePageViewState();
+}
+
+class _WelcomePageViewState extends State<WelcomePageView> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(const Duration(seconds: 5), () {
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const LoginView()),
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
