@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trailquest_mobile/features/home/routes_filters/widgets/difficultyCard.dart';
+import 'package:trailquest_mobile/features/home/routes_filters/widgets/route_type_button.dart';
 
 class RouteFiltersView extends StatefulWidget {
   const RouteFiltersView({super.key});
@@ -131,7 +132,144 @@ class _RouteFiltersViewState extends State<RouteFiltersView> {
                 color: const Color(0xFF1E432B),
                 borderRadius: BorderRadius.circular(40),
               ),
+              child: Center(
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    trackHeight: 4,
+                    activeTrackColor: const Color(0xFF8EE28F),
+                    inactiveTrackColor: const Color(0xFF1E432B),
+                    thumbColor: const Color(0xFFB9F28B),
+                    thumbShape: const RoundSliderThumbShape(
+                      enabledThumbRadius: 10,
+                    ),
+                    overlayShape: SliderComponentShape.noOverlay,
+                  ),
+                  child: Slider(
+                    min: 0,
+                    max: 80,
+                    value: maxDistance,
+                    onChanged: (value) {
+                      setState(() => maxDistance = value);
+                    },
+                  ),
+                ),
+              ),
             ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text(
+                  '0',
+                  style: TextStyle(color: Colors.white70, fontSize: 12),
+                ),
+                Text(
+                  '80+',
+                  style: TextStyle(color: Colors.white70, fontSize: 12),
+                ),
+              ],
+            ),
+            const SizedBox(height: 32),
+            const Text(
+              'ROUTE TYPE',
+              style: TextStyle(
+                color: Color(0xFFCEDF8F),
+                fontSize: 14,
+                letterSpacing: 1.2,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RouteTypeButton(
+                  label: 'Loop',
+                  selectedLabel: routeType,
+                  icon: Icons.autorenew,
+                  onSelected: (value) => setState(() => routeType = value),
+                ),
+                RouteTypeButton(
+                  label: 'Out & Back',
+                  selectedLabel: routeType,
+                  icon: Icons.arrow_forward,
+                  onSelected: (value) => setState(() => routeType = value),
+                ),
+                RouteTypeButton(
+                  label: 'Elevated',
+                  selectedLabel: routeType,
+                  icon: Icons.trending_up,
+                  onSelected: (value) => setState(() => routeType = value),
+                ),
+                RouteTypeButton(
+                  label: 'Point to Point',
+                  selectedLabel: routeType,
+                  icon: Icons.compare_arrows,
+                  onSelected: (value) => setState(() => routeType = value),
+                ),
+              ],
+            ),
+            const SizedBox(height: 32),
+            const Text(
+              'REGION',
+              style: TextStyle(
+                color: Color(0xFFCEDF8F),
+                fontSize: 14,
+                letterSpacing: 1.2,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 16),
+            GestureDetector(
+              onTap: () {
+                //Completar esto
+              },
+              child: Container(
+                height: 64,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF062015),
+                  borderRadius: BorderRadius.circular(32),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      region,
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                    const Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: Colors.white70,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              height: 72,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF4CAF50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(36),
+                  ),
+                ),
+                onPressed: () {
+                  // completar esto
+                },
+                child: const Text(
+                  'SHOW 86 TRAILS',
+                  style: TextStyle(
+                    fontSize: 18,
+                    letterSpacing: 1.2,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
           ],
         ),
       ),
