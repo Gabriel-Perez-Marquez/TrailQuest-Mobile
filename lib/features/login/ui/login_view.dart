@@ -11,7 +11,7 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
   bool _obscurePassword = true;
@@ -20,13 +20,13 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
   void _handleLogin() async {
-    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+    if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Por favor completa todos los campos'),
@@ -41,9 +41,9 @@ class _LoginViewState extends State<LoginView> {
     });
 
     try {
-      print('Intentando iniciar sesión con: ${_emailController.text}');
+      print('Intentando iniciar sesión con: ${_usernameController.text}');
       final response = await _authService.login(
-        _emailController.text,
+        _usernameController.text,
         _passwordController.text,
       );
       print('Respuesta del servidor: ${response.username}');
@@ -132,16 +132,16 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       const SizedBox(height: 48),
                       TextField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
+                        controller: _usernameController,
+                        keyboardType: TextInputType.text,
                         decoration: InputDecoration(
-                          labelText: 'Email',
+                          labelText: 'Usuario',
                           labelStyle: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Color(0xFF1B512D),
                           ),
-                          hintText: 'name@example.com',
+                          hintText: 'Ingresa tu usuario',
                           hintStyle: const TextStyle(
                             color: Color(0xFFD2E993),
                           ),
