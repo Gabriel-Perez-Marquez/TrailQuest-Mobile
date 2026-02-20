@@ -47,7 +47,7 @@ class PoiDetailPageView extends StatelessWidget {
             ),
           ),
 
-          // 2. Contenido Scrolleable
+          
           Positioned.fill(
             child: SingleChildScrollView(
               child: Column(
@@ -155,7 +155,7 @@ class PoiDetailPageView extends StatelessWidget {
                         ),
                         const SizedBox(height: 24),
 
-                        // Nota histórica (Opcional)
+                        // Nota histórica
                         if (poi.historicalNote != null && poi.historicalNote!.isNotEmpty) ...[
                           Container(
                             padding: const EdgeInsets.all(20),
@@ -244,7 +244,7 @@ class PoiDetailPageView extends StatelessWidget {
             ),
           ),
 
-          // 3. Botones Superiores Flotantes
+          // Botones Superiores Flotantes
           Positioned(
             top: MediaQuery.of(context).padding.top + 16,
             left: 16,
@@ -266,7 +266,7 @@ class PoiDetailPageView extends StatelessWidget {
         ],
       ),
 
-      // 4. Barra Inferior
+      // Barra Inferior
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(
           left: 24,
@@ -324,7 +324,7 @@ class PoiDetailPageView extends StatelessWidget {
     );
   }
 
-  // Widgets Auxiliares
+  
   Widget _buildChip(IconData icon, String label) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
