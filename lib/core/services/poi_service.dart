@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:trailquest_mobile/core/models/poi.dart';
 
 class PoiService {
-  final String baseUrl = 'http://localhost:8080'; 
+  final String baseUrl = 'http://10.0.0.2:8080'; 
 
   Future<POI> getPoiDetails(String id) async {
     try {
