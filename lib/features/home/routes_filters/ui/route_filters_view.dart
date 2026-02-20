@@ -13,6 +13,13 @@ class _RouteFiltersViewState extends State<RouteFiltersView> {
   String difficulty = 'Easy';
   double maxDistance = 40;
   String routeType = 'Out & Back';
+  final List<String> regions = const [
+    'All regions',
+    'Sierra Norte',
+    'Sierra Sur',
+    'Costa',
+    'Parque Natural Doñana',
+  ];
   String region = 'All regions';
 
   @override
@@ -221,8 +228,47 @@ class _RouteFiltersViewState extends State<RouteFiltersView> {
             ),
             const SizedBox(height: 16),
             GestureDetector(
-              onTap: () {
-                //Completar esto
+              onTap: () async {
+                final selected = await showModalBottomSheet<String>(
+                  context: context,
+                  backgroundColor: const Color(0xFF02160D),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(24),
+                    ),
+                  ),
+                  builder: (context) {
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: regions.length,
+                      separatorBuilder: (_, __) =>
+                          const Divider(height: 1, color: Colors.white12),
+                      itemBuilder: (context, index) {
+                        final item = regions[index];
+                        final isSelected = item == region;
+
+                        return ListTile(
+                          title: Text(
+                            item,
+                            style: TextStyle(
+                              color: isSelected
+                                  ? const Color(0xFFCEDF8F)
+                                  : Colors.white,
+                              fontWeight: isSelected
+                                  ? FontWeight.w600
+                                  : FontWeight.w400,
+                            ),
+                          ),
+                          onTap: () => Navigator.of(context).pop(item),
+                        );
+                      },
+                    );
+                  },
+                );
+
+                if (selected != null && selected != region) {
+                  setState(() => region = selected);
+                }
               },
               child: Container(
                 height: 64,
@@ -251,7 +297,7 @@ class _RouteFiltersViewState extends State<RouteFiltersView> {
               height: 72,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF4CAF50),
+                  backgroundColor: const Color(0xFF1E432B),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(36),
                   ),
@@ -262,6 +308,7 @@ class _RouteFiltersViewState extends State<RouteFiltersView> {
                 child: const Text(
                   'SHOW 86 TRAILS',
                   style: TextStyle(
+                    color: const Color(0xFFD2E993),
                     fontSize: 18,
                     letterSpacing: 1.2,
                     fontWeight: FontWeight.w700,

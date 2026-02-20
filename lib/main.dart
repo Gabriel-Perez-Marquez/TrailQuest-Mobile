@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trailquest_mobile/features/home/routes_filters/ui/route_filters_view.dart';
 import 'package:trailquest_mobile/features/welcome_page/ui/welcome_page_view.dart';
 
 
