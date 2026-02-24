@@ -27,7 +27,7 @@ class PoiDetailPageView extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(poi.imageUrl),
+                  image: NetworkImage(""),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -110,7 +110,7 @@ class PoiDetailPageView extends StatelessWidget {
                         
                         // Localización
                         Text(
-                          poi.location,
+                          "Lat: ${poi.lat}Lon: ${poi.lat}",
                           style: const TextStyle(
                             fontSize: 15,
                             color: greyText,
