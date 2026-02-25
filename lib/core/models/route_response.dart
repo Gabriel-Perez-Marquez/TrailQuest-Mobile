@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:latlong2/latlong.dart';
 import 'poi.dart';
 
@@ -10,6 +9,9 @@ class TrailRoute {
   final String difficulty;
   final String creatorId;
   final String coverFileId;
+  
+  final double? startLat;
+  final double? startLon;
   final int elevation; 
   final List<LatLng> pathPoints; 
   final List<POI> pois;
@@ -22,32 +24,32 @@ class TrailRoute {
     required this.difficulty,
     required this.creatorId,
     required this.coverFileId,
+    this.startLat,
+    this.startLon,
     required this.elevation,
     required this.pathPoints,
     required this.pois,
   });
 
-
-factory TrailRoute.fromJson(Map<String, dynamic> json) {
-    // 1. Mapear los POIs de forma segura
+  factory TrailRoute.fromJson(Map<String, dynamic> json) {
     List<POI> parsedPois = json['pois'] != null
         ? (json['pois'] as List).map((poiJson) => POI.fromJson(poiJson)).toList()
         : [];
 
-    // 2. Decodificar las coordenadas (pathPointsJson) de forma segura
     List<LatLng> parsedPath = [];
-    if (json['pathPointsJson'] != null && json['pathPointsJson'].toString().isNotEmpty) {
+    if (json['pathPoints'] != null) {
       try {
-        List<dynamic> decodedPoints = jsonDecode(json['pathPointsJson']);
-        parsedPath = decodedPoints.map((point) {
-          return LatLng(point[0].toDouble(), point[1].toDouble());
+        var pointsList = json['pathPoints'] as List;
+        parsedPath = pointsList.map((point) {
+          double lat = (point['latitude'] ?? point['lat'] ?? 0.0).toDouble();
+          double lon = (point['longitude'] ?? point['lon'] ?? 0.0).toDouble();
+          return LatLng(lat, lon);
         }).toList();
       } catch (e) {
-        print("Error decodificando la ruta del mapa: $e");
+        print("Error decodificando pathPoints: $e");
       }
     }
 
-    // 3. Retornar el objeto con el mismo estilo que tu POI
     return TrailRoute(
       id: json['id'],
       title: json['title'] ?? 'Sin título',
@@ -56,6 +58,9 @@ factory TrailRoute.fromJson(Map<String, dynamic> json) {
       difficulty: json['difficulty'] ?? 'N/A',
       creatorId: json['creatorId'] ?? 'Desconocido',
       coverFileId: json['coverFileId'] ?? '',
+      
+      startLat: json['startLat']?.toDouble(),
+      startLon: json['startLon']?.toDouble(),
       elevation: json['elevation'] ?? 0,
       pathPoints: parsedPath,
       pois: parsedPois,

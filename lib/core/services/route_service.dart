@@ -19,4 +19,30 @@ class RouteService {
       throw Exception('Error de conexión: $e');
     }
   }
+
+  Future<List<TrailRoute>> getAllRoutes() async {
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/routes'));
+
+      if (response.statusCode == 200) {
+        final dynamic decodedBody = jsonDecode(response.body);
+        List<dynamic> jsonList;
+
+        if (decodedBody is Map<String, dynamic>) {
+          jsonList = decodedBody['content'] ?? decodedBody['data'] ?? [];
+        } else if (decodedBody is List) {
+          jsonList = decodedBody;
+        } else {
+          jsonList = [];
+        }
+
+        return jsonList.map((json) => TrailRoute.fromJson(json)).toList();
+        
+      } else {
+        throw Exception('Error del servidor: código ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error de conexión: $e');
+    }
+  }
 }
