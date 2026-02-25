@@ -1,13 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:trailquest_mobile/core/models/route_response.dart';
+import 'package:trailquest_mobile/core/services/route_service.dart';
 
 class UserProfilePage extends StatefulWidget {
-  const UserProfilePage({super.key});
+  final String? username;
+
+  const UserProfilePage({super.key, this.username});
 
   @override
   State<UserProfilePage> createState() => _UserProfilePageState();
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
+  late String _currentUsername;
+  late String _currentUserAvatar;
+  late TrailRoute? _lastRoute;
+  bool _isLoading = true;
+  bool _hasError = false;
+
+  final RouteService _routeService = RouteService();
+
+  @override
+  void initState() {
+    super.initState();
+    _currentUsername = widget.username ?? 'Usuario';
+    _currentUserAvatar = _currentUsername.isNotEmpty 
+        ? _currentUsername[0].toUpperCase() 
+        : 'U';
+    _lastRoute = null;
+    _loadLastRoute();
+  }
+
+  Future<void> _loadLastRoute() async {
+    try {
+      // Intenta cargar la ruta con ID 1 como ejemplo
+      // En una aplicación real, esto vendría del usuario actual
+      final route = await _routeService.getRoute(1);
+      setState(() {
+        _lastRoute = route;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+        _hasError = true;
+      });
+      print('Error cargando última ruta: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,10 +107,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             color: const Color(0xFFFCE4EC),
                           ),
                           child: Center(
-                            child: Icon(
-                              Icons.phone_iphone,
-                              size: 60,
-                              color: const Color(0xFFF48FB1),
+                            child: Text(
+                              _currentUserAvatar,
+                              style: const TextStyle(
+                                fontSize: 48,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFFF48FB1),
+                              ),
                             ),
                           ),
                         ),
@@ -92,9 +136,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     ),
                     const SizedBox(height: 16),
                     // User Name
-                    const Text(
-                      'Alex Thorne',
-                      style: TextStyle(
+                    Text(
+                      _currentUsername,
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF2D5016),
@@ -242,15 +286,30 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  _ActivityCard(
-                    title: 'Mount Rainier Loop',
-                    date: 'Completed Oct 12, 2023',
-                    distance: '12.4km',
-                    duration: '4h 15m',
-                    onTap: () {
-                      // Handle activity tap
-                    },
-                  ),
+                  if (_isLoading)
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  else if (_hasError || _lastRoute == null)
+                    _ActivityCard(
+                      title: 'No hay rutas disponibles',
+                      date: 'Sin datos',
+                      distance: '0km',
+                      duration: '0h 0m',
+                      onTap: () {
+                        // Handle activity tap
+                      },
+                    )
+                  else
+                    _ActivityCard(
+                      title: _lastRoute!.title,
+                      date: 'Ruta completada',
+                      distance: '${_lastRoute!.distanceKm.toStringAsFixed(1)}km',
+                      duration: '${(_lastRoute!.distanceKm / 3).toStringAsFixed(0)}h ${(((_lastRoute!.distanceKm % 3) / 3) * 60).toStringAsFixed(0)}m',
+                      onTap: () {
+                        // Handle activity tap
+                      },
+                    ),
                   const SizedBox(height: 16),
                 ],
               ),
