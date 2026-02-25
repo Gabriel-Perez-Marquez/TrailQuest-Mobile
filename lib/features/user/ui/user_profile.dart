@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:trailquest_mobile/core/models/route_response.dart';
 import 'package:trailquest_mobile/core/services/route_service.dart';
+import 'setting_type_selection.dart';
+import 'user_settings.dart';
+import 'general_settings.dart';
 
 class UserProfilePage extends StatefulWidget {
   final String? username;
@@ -68,7 +71,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           IconButton(
             icon: const Icon(Icons.settings, color: Colors.black),
             onPressed: () {
-              // Handle settings navigation
+              _showSettingsBottomSheet(context);
             },
           ),
         ],
@@ -317,6 +320,30 @@ class _UserProfilePageState extends State<UserProfilePage> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showSettingsBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return SettingTypeSelection(
+          onUserSettingsTap: () {
+            Navigator.of(context).pop();
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const UserSettingsPage()),
+            );
+          },
+          onGeneralSettingsTap: () {
+            Navigator.of(context).pop();
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const GeneralSettingsPage()),
+            );
+          },
+        );
+      },
     );
   }
 }
