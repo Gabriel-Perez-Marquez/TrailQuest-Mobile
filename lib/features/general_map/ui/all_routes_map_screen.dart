@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trailquest_mobile/core/services/route_service.dart';
 import 'package:trailquest_mobile/features/general_map/bloc/general_map_bloc.dart';
+import 'package:trailquest_mobile/features/home/ui/home_screen.dart';
 import 'package:trailquest_mobile/features/welcome_page/ui/welcome_page_view.dart';
 import 'all_routes_map.dart'; 
 
@@ -60,7 +61,7 @@ class AllRoutesMapScreen extends StatelessWidget {
                           icon: const Icon(Icons.arrow_back, color: Colors.black87),
                           onPressed: () => Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => const WelcomePageView()),
+                            MaterialPageRoute(builder: (context) => const HomeScreen()),
                           ),
                         ),
                       ),
@@ -88,13 +89,13 @@ class AllRoutesMapScreen extends StatelessWidget {
         ),
 
         // 2. EL MENÚ INFERIOR DE NAVEGACIÓN
-        bottomNavigationBar: _buildCustomBottomBar(),
+        bottomNavigationBar: _buildCustomBottomBar(context),
       ),
     );
   }
 
   // --- WIDGET DEL MENÚ INFERIOR ---
-  Widget _buildCustomBottomBar() {
+  Widget _buildCustomBottomBar(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 14, bottom: 20), 
       decoration: const BoxDecoration(
@@ -112,7 +113,10 @@ class AllRoutesMapScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            _buildNavItem(Icons.search, "Explore", isActive: false, onTap: () => {},),
+            _buildNavItem(Icons.search, "Explore", isActive: false, onTap: () => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (ctx) => const HomeScreen()),
+                          ),),
             _buildNavItem(Icons.favorite_border, "Saved", isActive: false, onTap: () => {},),
             _buildNavItem(Icons.where_to_vote_outlined, "Check ins", isActive: false, onTap: () => {},),
             _buildNavItem(Icons.navigation_outlined, "Navigate", isActive: true, onTap: () => {},),
@@ -129,9 +133,7 @@ class AllRoutesMapScreen extends StatelessWidget {
     final color = isActive ? const Color(0xFFDFE69B) : const Color(0xFFDFE69B).withOpacity(0.6);
 
     return InkWell(
-      onTap: () {
-        
-      },
+      onTap: onTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
