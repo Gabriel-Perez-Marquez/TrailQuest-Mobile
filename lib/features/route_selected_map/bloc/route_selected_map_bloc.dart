@@ -15,7 +15,7 @@ class RouteSelectedMapBloc extends Bloc<RouteSelectedMapEvent, RouteSelectedMapS
         final route = await routeService.getRoute(event.routeId);
         emit(RouteSelectedMapSuccess(route));
       } catch (e) {
-        emit(RouteSelectedMapError("Error crítico al cargar la ruta."));
+        emit(RouteSelectedMapError("Error crítico al cargar la ruta: $e"));
       }
     });
   }
