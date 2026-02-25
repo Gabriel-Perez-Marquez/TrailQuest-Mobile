@@ -8,8 +8,6 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
-  int _selectedNavIndex = 5; // Profile es el último item
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -260,70 +258,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedNavIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedNavIndex = index;
-          });
-          _handleNavigation(index);
-        },
-        backgroundColor: const Color(0xFF0F1F17),
-        type: BottomNavigationBarType.fixed,
-        unselectedItemColor: Colors.grey,
-        selectedItemColor: const Color(0xFFCEDF8F),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            label: 'Saved',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.check_circle),
-            label: 'Check-ins',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.navigation),
-            label: 'Navigate',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.route),
-            label: 'My Routes',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
     );
-  }
-
-  void _handleNavigation(int index) {
-    // Navigate to different screens based on index
-    switch (index) {
-      case 0:
-        // Navigate to Explore
-        break;
-      case 1:
-        // Navigate to Saved
-        break;
-      case 2:
-        // Navigate to Check-ins
-        break;
-      case 3:
-        // Navigate to Navigate
-        break;
-      case 4:
-        // Navigate to My Routes
-        break;
-      case 5:
-        // Already on Profile
-        break;
-    }
   }
 }
 
@@ -458,7 +393,6 @@ class _ActivityCard extends StatelessWidget {
             Container(
               width: 100,
               height: 100,
-
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(12),
