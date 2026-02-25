@@ -33,8 +33,8 @@ class POI {
     return POI(
       id: json['id'],
       title: json['title'] ?? 'Sin título',
-      lat: json['lat'].toDouble(),
-      lon: json['lon'].toDouble(),
+      lat: (json['lat'] ?? 0.0).toDouble(),
+      lon: (json['lon'] ?? 0.0).toDouble(),
       rating: (json['rating'] ?? 0.0).toDouble(), 
       reviews: json['reviews'] ?? 0,
       difficulty: json['difficulty'] ?? 'N/A',
