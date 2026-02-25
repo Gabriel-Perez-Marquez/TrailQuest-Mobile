@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trailquest_mobile/core/services/route_service.dart';
 import 'package:trailquest_mobile/features/general_map/bloc/general_map_bloc.dart';
+import 'package:trailquest_mobile/features/welcome_page/ui/welcome_page_view.dart';
 import 'all_routes_map.dart'; 
 
 class AllRoutesMapScreen extends StatelessWidget {
@@ -14,9 +15,10 @@ class AllRoutesMapScreen extends StatelessWidget {
       create: (context) => GeneralMapBloc(RouteService())..add(GeneralMapFetchAllRoutesEvent()),
       
       child: Scaffold(
+        // 1. EL CUERPO PRINCIPAL (Mapa y Barra Superior)
         body: Stack(
           children: [
-            // 1. CAPA DEL MAPA (Escuchando al BLoC)
+            // CAPA DEL MAPA (Escuchando al BLoC)
             Positioned.fill(
               child: BlocBuilder<GeneralMapBloc, GeneralMapState>(
                 builder: (context, state) {
@@ -41,7 +43,7 @@ class AllRoutesMapScreen extends StatelessWidget {
               ),
             ),
 
-            // 2. CAPA SUPERIOR (Botón de volver y título)
+            // CAPA SUPERIOR (Botón de volver y título)
             Positioned(
               top: 0,
               left: 0,
@@ -56,7 +58,10 @@ class AllRoutesMapScreen extends StatelessWidget {
                         radius: 24,
                         child: IconButton(
                           icon: const Icon(Icons.arrow_back, color: Colors.black87),
-                          onPressed: () => Navigator.of(context).pop(),
+                          onPressed: () => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => const WelcomePageView()),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -81,6 +86,66 @@ class AllRoutesMapScreen extends StatelessWidget {
             ),
           ],
         ),
+
+        // 2. EL MENÚ INFERIOR DE NAVEGACIÓN
+        bottomNavigationBar: _buildCustomBottomBar(),
+      ),
+    );
+  }
+
+  // --- WIDGET DEL MENÚ INFERIOR ---
+  Widget _buildCustomBottomBar() {
+    return Container(
+      padding: const EdgeInsets.only(top: 14, bottom: 20), 
+      decoration: const BoxDecoration(
+        color: Color(0xFF2B3A2C), 
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 10,
+            offset: Offset(0, -4),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            _buildNavItem(Icons.search, "Explore", isActive: false, onTap: () => {},),
+            _buildNavItem(Icons.favorite_border, "Saved", isActive: false, onTap: () => {},),
+            _buildNavItem(Icons.where_to_vote_outlined, "Check ins", isActive: false, onTap: () => {},),
+            _buildNavItem(Icons.navigation_outlined, "Navigate", isActive: true, onTap: () => {},),
+            _buildNavItem(Icons.route_outlined, "My Routes", isActive: false, onTap: () => {},),
+            _buildNavItem(Icons.person_outline, "Profile", isActive: false, onTap: () => {},),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // --- DISEÑO DE CADA BOTÓN ---
+  Widget _buildNavItem(IconData icon, String label, {required bool isActive, required VoidCallback onTap}) {
+    final color = isActive ? const Color(0xFFDFE69B) : const Color(0xFFDFE69B).withOpacity(0.6);
+
+    return InkWell(
+      onTap: () {
+        
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: color, size: 28),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            style: TextStyle(
+              color: color,
+              fontSize: 11,
+              fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+            ),
+          ),
+        ],
       ),
     );
   }
