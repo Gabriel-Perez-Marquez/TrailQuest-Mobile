@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:trailquest_mobile/features/register/ui/register_view.dart';
 import 'package:trailquest_mobile/core/services/auth_service.dart';
+import 'package:trailquest_mobile/core/services/token_service.dart';
+import 'package:trailquest_mobile/core/layouts/main_layout.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -17,6 +19,7 @@ class _LoginViewState extends State<LoginView> {
   bool _obscurePassword = true;
   bool _isLoading = false;
   final AuthService _authService = AuthService();
+  final TokenService _tokenService = TokenService();
 
   @override
   void dispose() {
@@ -48,6 +51,10 @@ class _LoginViewState extends State<LoginView> {
       );
       print('Respuesta del servidor: ${response.username}');
 
+      // Guardar el token JWT y username
+      await _tokenService.saveToken(response.token, response.username);
+      print('Token guardado exitosamente');
+
       if (mounted) {
         setState(() {
           _isLoading = false;
@@ -57,13 +64,14 @@ class _LoginViewState extends State<LoginView> {
           SnackBar(
             content: Text('Bienvenido ${response.username}'),
             backgroundColor: Colors.green,
+            duration: const Duration(seconds: 2),
           ),
         );
 
-        // Aquí puedes navegar a la pantalla principal
-        // Navigator.of(context).pushReplacement(
-        //   MaterialPageRoute(builder: (context) => const HomePage()),
-        // );
+        // Navegar a la pantalla principal
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const MainLayout()),
+        );
       }
     } catch (e) {
       if (mounted) {
