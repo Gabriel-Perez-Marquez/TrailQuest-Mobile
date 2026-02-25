@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trailquest_mobile/features/home/routes_filters/widgets/difficultyCard.dart';
-import 'package:trailquest_mobile/features/home/routes_filters/widgets/route_type_button.dart';
+import 'package:trailquest_mobile/features/route_filters/widgets/difficulty_card.dart';
+import 'package:trailquest_mobile/features/route_filters/widgets/route_type_button.dart';
 
 class RouteFiltersView extends StatefulWidget {
   const RouteFiltersView({super.key});
