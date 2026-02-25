@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trailquest_mobile/features/user/ui/user_profile.dart';
 import 'package:trailquest_mobile/features/welcome_page/ui/welcome_page_view.dart';
 
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
 
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const WelcomePageView(),
+      home: const UserProfilePage(),
 
     );
   }
