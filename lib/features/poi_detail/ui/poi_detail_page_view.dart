@@ -110,7 +110,7 @@ class PoiDetailPageView extends StatelessWidget {
                         
                         // Localización
                         Text(
-                          "Lat: ${poi.lat}Lon: ${poi.lat}",
+                          "Lat: ${poi.lat}, Lon: ${poi.lon}",
                           style: const TextStyle(
                             fontSize: 15,
                             color: greyText,
