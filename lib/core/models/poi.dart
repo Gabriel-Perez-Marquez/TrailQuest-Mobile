@@ -45,7 +45,7 @@ class POI {
       features: json['features'] != null 
           ? List<String>.from(json['features']) 
           : [],
-      photoFileId: json['photoFileId'], 
+      photoFileId: json['photoFileId'] ?? '', 
     );
   }
 }
