@@ -93,7 +93,9 @@ class _GeneralSettingsPageState extends State<GeneralSettingsPage> {
           TextButton(
             onPressed: () {
               Navigator.of(ctx).pop();
-              // TODO: clear session and navigate to login screen
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (_) => const WelcomePageView()),
+              );
               _showSnackBar('Logged out');
             },
             child: const Text('Log Out',

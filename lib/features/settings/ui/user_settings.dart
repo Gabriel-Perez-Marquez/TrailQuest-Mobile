@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../common/widgets/bottom_navigation_bar.dart';
 import '../../user/ui/user_profile.dart';
+import '../../welcome_page/ui/welcome_page_view.dart';
 
 class UserSettingsPage extends StatefulWidget {
   final String? username;
   final String? email;
-  final String? membershipStatus;
 
-  const UserSettingsPage({
-    super.key,
-    this.username = 'Alex Thorne',
-    this.email = 'alex.thorne@trailquest.com',
-    this.membershipStatus = 'Pro Member',
-  });
+  const UserSettingsPage({super.key, this.username, this.email});
 
   @override
   State<UserSettingsPage> createState() => _UserSettingsPageState();
@@ -21,16 +16,14 @@ class UserSettingsPage extends StatefulWidget {
 class _UserSettingsPageState extends State<UserSettingsPage> {
   late String _username;
   late String _email;
-  late String _membershipStatus;
   late String _userAvatar;
 
   @override
   void initState() {
     super.initState();
-    _username = widget.username ?? 'Alex Thorne';
-    _email = widget.email ?? 'alex.thorne@trailquest.com';
-    _membershipStatus = widget.membershipStatus ?? 'Pro Member';
-    _userAvatar = _username.isNotEmpty ? _username[0].toUpperCase() : 'A';
+    _username = widget.username ?? 'Usuario';
+    _email = widget.email ?? 'usuario@trailquest.com';
+    _userAvatar = _username.isNotEmpty ? _username[0].toUpperCase() : 'U';
   }
 
   void _showEditProfile() {
@@ -188,7 +181,6 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
           'Need help? We\'re here for you.\n\n'
           'support@trailquest.com\n'
           'trailquest.com/help\n'
-          'In-app chat (Pro members)\n\n'
           'Common topics:\n'
           '• How to download offline maps\n'
           '• Recording a hike\n'
@@ -228,7 +220,9 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
           TextButton(
             onPressed: () {
               Navigator.of(ctx).pop();
-              // TODO: clear session and navigate to login screen
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (_) => const WelcomePageView()),
+              );
               _showSnackBar('Logged out');
             },
             child: const Text('Log Out',
@@ -293,7 +287,11 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).pop({
+            'username': _username,
+            'email': _email,
+            'avatar': _userAvatar,
+          }),
         ),
         title: const Text('Settings',
             style: TextStyle(
@@ -342,18 +340,6 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400)),
                         const SizedBox(height: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 4),
-                          decoration: BoxDecoration(
-                              color: const Color(0xFFFFC107),
-                              borderRadius: BorderRadius.circular(4)),
-                          child: Text(_membershipStatus,
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600)),
-                        ),
                       ],
                     ),
                   ),
@@ -458,7 +444,6 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
   }
 }
 
-// ── Reusable widgets ──────────────────────────────────────────────────────────
 
 class _SettingItem extends StatelessWidget {
   final IconData icon;
@@ -645,7 +630,7 @@ class _NotifToggle extends StatelessWidget {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: const Color(0xFF9DB92C),
+            activeThumbColor: const Color(0xFF9DB92C),
             inactiveThumbColor: Colors.grey,
           ),
         ],

@@ -244,8 +244,20 @@ class _UserProfilePageState extends State<UserProfilePage> {
           onUserSettingsTap: () {
             Navigator.of(context).pop();
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const UserSettingsPage()),
-            );
+              MaterialPageRoute(
+                builder: (_) => UserSettingsPage(
+                  username: _currentUsername,
+                  email: 'usuario@trailquest.com',
+                ),
+              ),
+            ).then((result) {
+              if (result != null && result is Map<String, dynamic>) {
+                setState(() {
+                  _currentUsername = result['username'] ?? _currentUsername;
+                  _currentUserAvatar = result['avatar'] ?? _currentUserAvatar;
+                });
+              }
+            });
           },
           onGeneralSettingsTap: () {
             Navigator.of(context).pop();
