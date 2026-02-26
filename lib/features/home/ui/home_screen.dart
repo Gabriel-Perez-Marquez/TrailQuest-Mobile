@@ -49,69 +49,56 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xFF0F1F17),
       body: SafeArea(
         child: Column(
           children: [
-            Container(
+            Padding(
               padding: const EdgeInsets.all(16),
-              decoration: const BoxDecoration(
-                color: Color(0xFF1B512D),
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(24),
-                ),
-              ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Explore Trails',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  const Text(
-                    'Discover amazing routes near you',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white70,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-
                   Row(
                     children: [
+                      Container(
+                        width: 56,
+                        height: 56,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFD2E993),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: const Icon(
+                          Icons.map_outlined,
+                          color: Color(0xFF0F1F17),
+                          size: 28,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
                       Expanded(
                         child: Container(
+                          height: 56,
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
+                            color: const Color(0xFFD2E993),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: TextField(
                             controller: _searchController,
                             onSubmitted: _performSearch,
-                            decoration: InputDecoration(
-                              hintText: 'Search trails...',
-                              prefixIcon: const Icon(
-                                Icons.search,
-                                color: Color(0xFF1B512D),
+                            style: const TextStyle(
+                              color: Color(0xFF0F1F17),
+                            ),
+                            decoration: const InputDecoration(
+                              hintText: 'Find trails',
+                              hintStyle: TextStyle(
+                                color: Color(0xFF2D4A35),
                               ),
-                              suffixIcon: _searchController.text.isNotEmpty
-                                  ? IconButton(
-                                      icon: const Icon(Icons.clear),
-                                      onPressed: () {
-                                        _searchController.clear();
-                                        _performSearch('');
-                                      },
-                                    )
-                                  : null,
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: Color(0xFF0F1F17),
+                              ),
                               border: InputBorder.none,
-                              contentPadding: const EdgeInsets.symmetric(
+                              contentPadding: EdgeInsets.symmetric(
                                 horizontal: 16,
-                                vertical: 14,
+                                vertical: 16,
                               ),
                             ),
                           ),
@@ -119,18 +106,31 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       const SizedBox(width: 12),
                       Container(
+                        width: 56,
+                        height: 56,
                         decoration: BoxDecoration(
                           color: const Color(0xFFD2E993),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         child: IconButton(
                           onPressed: _openFilters,
                           icon: const Icon(
                             Icons.tune,
-                            color: Color(0xFF1B512D),
+                            color: Color(0xFF0F1F17),
+                            size: 28,
                           ),
                         ),
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      _buildFilterChip('Near', Icons.location_on_outlined, false),
+                      const SizedBox(width: 8),
+                      _buildFilterChip('Views', Icons.terrain, false),
+                      const SizedBox(width: 8),
+                      _buildFilterChip('Top selected', Icons.star, false),
                     ],
                   ),
                 ],
@@ -162,7 +162,10 @@ class _HomeViewState extends State<HomeView> {
                           Text(
                             state.message,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 16),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
                           ),
                           const SizedBox(height: 24),
                           ElevatedButton(
@@ -195,7 +198,7 @@ class _HomeViewState extends State<HomeView> {
                               'No routes found',
                               style: TextStyle(
                                 fontSize: 18,
-                                color: Colors.grey[600],
+                                color: Colors.grey[400],
                               ),
                             ),
                           ],
@@ -216,12 +219,13 @@ class _HomeViewState extends State<HomeView> {
                           return RouteCard(
                             route: route,
                             onTap: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Ruta: ${route.title}'),
-                                  duration: const Duration(seconds: 1),
-                                ),
-                              );
+                              // Descomentar cuando Carmen tenga lista la pantalla route_details_view:
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => RouteDetailsView(route: route),
+                              //   ),
+                              // );
                             },
                           );
                         },
@@ -235,6 +239,35 @@ class _HomeViewState extends State<HomeView> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildFilterChip(String label, IconData icon, bool isSelected) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: BoxDecoration(
+        color: isSelected ? const Color(0xFF1B512D) : const Color(0xFF1B512D),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: const Color(0xFFD2E993),
+            size: 18,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: const TextStyle(
+              color: Color(0xFFD2E993),
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }
