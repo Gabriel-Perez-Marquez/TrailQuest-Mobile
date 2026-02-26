@@ -4,6 +4,8 @@ import 'package:trailquest_mobile/core/models/route_response.dart';
 import 'package:trailquest_mobile/core/models/user_role.dart';
 import 'package:trailquest_mobile/core/services/poi_service.dart';
 import 'package:trailquest_mobile/core/services/route_service.dart';
+import 'package:trailquest_mobile/features/poi_detail/ui/poi_detail_page_view.dart';
+import 'package:trailquest_mobile/features/route_selected_map/ui/navigation_screen.dart';
 import 'package:trailquest_mobile/features/route_details/widgets/route_bottom_actions.dart';
 import 'package:trailquest_mobile/features/route_details/widgets/route_header_actions.dart';
 import 'package:trailquest_mobile/features/route_details/widgets/route_header_image.dart';
@@ -282,14 +284,24 @@ class _RouteDetailPageViewState extends State<RouteDetailPageView> {
         RoutePoiListSection(
           pois: pois,
           onPoiTap: (poi) {
-            // Completar esto, navegar al detalle del poi
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => PoiDetailPageView(poi: poi),
+              ),
+            );
           },
         ),
         const SizedBox(height: 20),
         RouteBottomActions(
           role: widget.userRole,
           onDownload: () {},
-          onNavigate: () {},
+          onNavigate: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => NavigationScreen(routeId: 1),
+              ),
+            );
+          },
           onDraft: () {},
           onPublish: () {},
         ),
