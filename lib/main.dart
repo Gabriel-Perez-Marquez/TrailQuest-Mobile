@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trailquest_mobile/features/crear_poi_screen/ui/crear_poi_screen.dart';
 import 'package:trailquest_mobile/features/general_map/ui/all_routes_map_screen.dart';
 import 'package:trailquest_mobile/features/welcome_page/ui/welcome_page_view.dart';
 import 'package:trailquest_mobile/core/services/token_service.dart';
