@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:latlong2/latlong.dart';
 import 'package:trailquest_mobile/core/models/route_response.dart';
 
 class RouteService {
@@ -20,29 +22,67 @@ class RouteService {
     }
   }
 
-  Future<List<TrailRoute>> getAllRoutes() async {
+  Future<String> uploadCoverImage(File imageFile) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/routes'));
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse('$baseUrl/routes/upload-cover'),
+      );
 
-      if (response.statusCode == 200) {
-        final dynamic decodedBody = jsonDecode(response.body);
-        List<dynamic> jsonList;
+      request.files.add(
+        await http.MultipartFile.fromPath('file', imageFile.path),
+      );
 
-        if (decodedBody is Map<String, dynamic>) {
-          jsonList = decodedBody['content'] ?? decodedBody['data'] ?? [];
-        } else if (decodedBody is List) {
-          jsonList = decodedBody;
-        } else {
-          jsonList = [];
-        }
+      final response = await request.send();
 
-        return jsonList.map((json) => TrailRoute.fromJson(json)).toList();
-        
+      if (response.statusCode == 201) {
+        final responseData = await response.stream.bytesToString();
+        final json = jsonDecode(responseData);
+        return json['id'] ?? json['fileId'] ?? '';
       } else {
-        throw Exception('Error del servidor: código ${response.statusCode}');
+        throw Exception('Error al subir imagen: ${response.statusCode}');
       }
     } catch (e) {
-      throw Exception('Error de conexión: $e');
+      throw Exception('Error al subir imagen: $e');
+    }
+  }
+
+  Future<TrailRoute> createRoute({
+    required String title,
+    required String region,
+    required double distanceKm,
+    required String difficulty,
+    required String creatorId,
+    required String coverFileId,
+    required int elevation,
+    required List<LatLng> pathPoints,
+  }) async {
+    try {
+      final requestBody = {
+        'title': title,
+        'region': region,
+        'distanceKm': distanceKm,
+        'difficulty': difficulty,
+        'creatorId': creatorId,
+        'coverFileId': coverFileId,
+        'elevation': elevation,
+        'pathPoints': pathPoints.map((p) => [p.latitude, p.longitude]).toList(),
+      };
+
+      final response = await http.post(
+        Uri.parse('$baseUrl/routes'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 201) {
+        final json = jsonDecode(response.body);
+        return TrailRoute.fromJson(json);
+      } else {
+        throw Exception('Error del servidor: ${response.statusCode} - ${response.body}');
+      }
+    } catch (e) {
+      throw Exception('Error al crear la ruta: $e');
     }
   }
 }
