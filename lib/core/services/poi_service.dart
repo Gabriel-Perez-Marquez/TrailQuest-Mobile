@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:trailquest_mobile/core/models/poi.dart';
 
 class PoiService {
-  // Mismo baseUrl que RouteService (10.0.2.2 = localhost desde el emulador Android)
-  final String baseUrl = 'http://10.0.2.2:8080/api';
+  String get baseUrl =>
+      kIsWeb ? 'http://localhost:8080/api' : 'http://10.0.2.2:8080/api';
 
   /// Devuelve todos los POIs de una ruta: GET /api/pois/route/{routeId}
   Future<List<POI>> getPoisByRoute(int routeId) async {

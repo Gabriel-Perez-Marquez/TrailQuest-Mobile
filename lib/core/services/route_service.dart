@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:trailquest_mobile/core/models/route_response.dart';
 
 class RouteService {
-  final String baseUrl = 'http://10.0.2.2:8080/api'; 
+  // En web (navegador) el backend está en localhost; en emulador Android en 10.0.2.2
+  String get baseUrl =>
+      kIsWeb ? 'http://localhost:8080/api' : 'http://10.0.2.2:8080/api';
 
   Future<TrailRoute> getRoute(int routeId) async {
     try {

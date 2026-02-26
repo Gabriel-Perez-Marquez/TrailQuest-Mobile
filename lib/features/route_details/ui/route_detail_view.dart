@@ -126,35 +126,34 @@ class _RouteDetailPageViewState extends State<RouteDetailPageView> {
   }
 
   Widget _buildContent(BuildContext context, TrailRoute route, List<POI> pois, bool isMock) {
-    final size = MediaQuery.of(context).size;
-
     return Stack(
       children: [
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          height: size.height * 0.45,
-          child: RouteHeaderImage(
-            coverFileId: route.coverFileId,
-          ),
-        ),
-        Positioned.fill(
-          top: size.height * 0.30,
-          child: SingleChildScrollView(
-            child: Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Color(0xFFD2E993),
-                borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(32)),
+        // Cuerpo principal con imagen y contenido scrollable
+        CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 260,
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              flexibleSpace: FlexibleSpaceBar(
+                background: RouteHeaderImage(coverFileId: route.coverFileId),
               ),
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 96),
-              child: _buildBody(context, route, pois),
             ),
-          ),
+            SliverToBoxAdapter(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Color(0xFFD2E993),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+                ),
+                padding: const EdgeInsets.fromLTRB(24, 24, 24, 96),
+                child: _buildBody(context, route, pois),
+              ),
+            ),
+          ],
         ),
-        // Banner de datos de muestra
+
+        // Banner de datos de muestra (abajo)
         if (isMock)
           Positioned(
             bottom: 0,
@@ -166,7 +165,7 @@ class _RouteDetailPageViewState extends State<RouteDetailPageView> {
                 onTap: () => setState(() => _dataFuture = _loadData()),
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  color: const Color(0xFF1B512D).withOpacity(0.85),
+                  color: const Color(0xFF1B512D).withOpacity(0.88),
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -182,10 +181,11 @@ class _RouteDetailPageViewState extends State<RouteDetailPageView> {
               ),
             ),
           ),
+
+        // Botones de cabecera (back + acciones)
         SafeArea(
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -271,7 +271,7 @@ class _RouteDetailPageViewState extends State<RouteDetailPageView> {
         ),
         const SizedBox(height: 20),
         const Text(
-          '¡Explore this route y descubre sus puntos de interés!',
+          '¡Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis in maximus ante, in mollis libero. Nam eu justo erat. Vivamus laoreet ligula nec leo tincidunt, non lobortis felis ultrices. Nulla imperdiet augue eu mi congue maximus. Nulla facilisi. Proin pharetra dapibus porttitor. Fusce sollicitudin ex at ligula vestibulum, ac pharetra quam pellentesque.!',
           style: TextStyle(
             fontSize: 14.5,
             color: Color(0xFF355E3B),
