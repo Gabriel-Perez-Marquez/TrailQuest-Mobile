@@ -308,7 +308,7 @@ class _RouteFiltersViewState extends State<RouteFiltersView> {
                 child: const Text(
                   'SHOW 86 TRAILS',
                   style: TextStyle(
-                    color: const Color(0xFFD2E993),
+                    color: Color(0xFFD2E993),
                     fontSize: 18,
                     letterSpacing: 1.2,
                     fontWeight: FontWeight.w700,

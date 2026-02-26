@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trailquest_mobile/features/route_details/ui/route_detail_view.dart';
 import 'package:trailquest_mobile/features/welcome_page/ui/welcome_page_view.dart';
 import 'package:trailquest_mobile/core/services/token_service.dart';
 
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1B512D)),
         useMaterial3: true,
       ),
-      home: const WelcomePageView(),
+      home: const RouteDetailPageView(routeId: 1),
     );
   }
 }

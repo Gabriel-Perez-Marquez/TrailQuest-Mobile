@@ -13,7 +13,7 @@ class PoiDetailBloc extends Bloc<PoiDetailEvent, PoiDetailState> {
       emit(PoiDetailLoading());
 
     try {
-      final poi = await poiService.getPoiDetails(event.poiId);
+      final poi = await poiService.getPoiDetails(int.parse(event.poiId));
       
       emit(PoiDetailSuccess(poi));
       
