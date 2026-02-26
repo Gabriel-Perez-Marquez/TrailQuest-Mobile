@@ -3,36 +3,15 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:trailquest_mobile/core/models/poi.dart';
+import 'package:trailquest_mobile/core/services/token_service.dart';
 
 class PoiService {
-  String get baseUrl =>
-      kIsWeb ? 'http://localhost:8080/api' : 'http://10.0.2.2:8080/api';
+  final String baseUrl = 'http://10.0.0.2:8080'; 
+  
 
-  /// Devuelve todos los POIs de una ruta: GET /api/pois/route/{routeId}
-  Future<List<POI>> getPoisByRoute(int routeId) async {
+  Future<POI> getPoiDetails(String id) async {
     try {
-      final url = Uri.parse('$baseUrl/pois/route/$routeId');
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        // El backend devuelve una Page<PoiResponse>, el contenido está en 'content'
-        final List<dynamic> content =
-            data is Map ? (data['content'] ?? []) : data as List;
-        return content.map((e) => POI.fromJson(e)).toList();
-      } else if (response.statusCode == 404) {
-        return [];
-      } else {
-        throw Exception('Error del servidor: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Fallo la conexión con la API: $e');
-    }
-  }
-
-  /// Detalle de un POI por id: GET /api/pois/{id}
-  Future<POI> getPoiDetails(int id) async {
-    try {
+      
       final url = Uri.parse('$baseUrl/pois/$id');
       final response = await http.get(url);
 
@@ -45,6 +24,48 @@ class PoiService {
       }
     } catch (e) {
       throw Exception('Fallo la conexión con la API: $e');
+    }
+  }
+
+  Future<void> createPoi({
+    required int routeId,
+    required String name,
+    required double lat,
+    required double lon,
+    required String difficulty,
+    required String duration,
+    required String type,
+    required String description,
+    required String historicalNote,
+    required List<String> features,
+    String? photoFileId,
+  }) async {
+
+    final tokenService = TokenService();
+    final token = await tokenService.getToken();
+
+    final response = await http.post(
+      Uri.parse('$baseUrl/route/$routeId/poi'), 
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token', 
+      },
+      body: jsonEncode({
+        'name': name,
+        'lat': lat,
+        'lon': lon,
+        'difficulty': difficulty,
+        'duration': duration,
+        'type': type,
+        'description': description,
+        'historicalNote': historicalNote,
+        'features': features,
+        'photoFileId': photoFileId,
+      }),
+    );
+
+    if (response.statusCode != 201 && response.statusCode != 200) {
+      throw Exception('Error al crear el POI: ${response.body}');
     }
   }
 }

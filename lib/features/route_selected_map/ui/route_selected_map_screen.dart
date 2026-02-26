@@ -1,5 +1,3 @@
-// Archivo: lib/features/navigation/ui/navigation_screen.dart (o donde lo hayas creado)
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trailquest_mobile/core/models/route_response.dart';
@@ -7,15 +5,14 @@ import 'package:trailquest_mobile/core/services/route_service.dart';
 import 'package:trailquest_mobile/features/route_selected_map/bloc/route_selected_map_bloc.dart';
 import 'package:trailquest_mobile/features/route_selected_map/ui/route_selected_map.dart'; 
 
-class NavigationScreen extends StatelessWidget {
+class RouteSelectedMapScreen extends StatelessWidget {
 final int routeId;
 
-  const NavigationScreen({super.key, required this.routeId});
+  const RouteSelectedMapScreen({super.key, required this.routeId});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      // 1. Instanciamos el BLoC, le pasamos el Servicio, y pedimos que cargue la ruta
       create: (context) => RouteSelectedMapBloc(RouteService())..add(RouteSelectedMapGetOneEvent(routeId)),
       
       child: Scaffold(
