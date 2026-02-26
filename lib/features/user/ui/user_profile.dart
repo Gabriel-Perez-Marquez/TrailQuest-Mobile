@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:trailquest_mobile/core/models/route_response.dart';
 import 'package:trailquest_mobile/core/services/route_service.dart';
-import 'setting_type_selection.dart';
-import 'user_settings.dart';
-import 'general_settings.dart';
+import '../../settings/widgets/setting_type_selection.dart';
+import '../../settings/ui/user_settings.dart';
+import '../../settings/ui/general_settings.dart';
+import '../../common/widgets/bottom_navigation_bar.dart';
 
 class UserProfilePage extends StatefulWidget {
   final String? username;
@@ -36,8 +37,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   Future<void> _loadLastRoute() async {
     try {
-      // Intenta cargar la ruta con ID 1 como ejemplo
-      // En una aplicación real, esto vendría del usuario actual
       final route = await _routeService.getRoute(1);
       setState(() {
         _lastRoute = route;
@@ -125,6 +124,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           height: 28,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
+                            
                             color: Colors.green,
                           ),
                           child: const Center(
@@ -317,8 +317,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 ],
               ),
             ),
+            const SizedBox(height: 80),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: 5,
+        onTap: (_) {},
       ),
     );
   }
