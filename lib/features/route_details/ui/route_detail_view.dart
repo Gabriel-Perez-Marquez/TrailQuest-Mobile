@@ -163,21 +163,21 @@ class _RouteDetailPageViewState extends State<RouteDetailPageView> {
               top: false,
               child: GestureDetector(
                 onTap: () => setState(() => _dataFuture = _loadData()),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  color: const Color(0xFF1B512D).withOpacity(0.88),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.wifi_off, size: 14, color: Colors.white70),
-                      SizedBox(width: 6),
-                      Text(
-                        'Vista previa — toca para conectar al servidor',
-                        style: TextStyle(color: Colors.white70, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
+                // child: Container(
+                //   padding: const EdgeInsets.symmetric(vertical: 8),
+                //   color: const Color(0xFF1B512D).withOpacity(0.88),
+                //   // child: const Row(
+                //   //   mainAxisAlignment: MainAxisAlignment.center,
+                //   //   children: [
+                //   //     Icon(Icons.wifi_off, size: 14, color: Colors.white70),
+                //   //     SizedBox(width: 6),
+                //   //     Text(
+                //   //       'Vista previa — toca para conectar al servidor',
+                //   //       style: TextStyle(color: Colors.white70, fontSize: 12),
+                //   //     ),
+                //   //   ],
+                //   // ),
+                // ),
               ),
             ),
           ),
