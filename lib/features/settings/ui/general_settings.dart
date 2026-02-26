@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:trailquest_mobile/features/home/routes_filters/ui/route_filters_view.dart';
+import 'package:trailquest_mobile/features/route_selected_map/ui/navigation_screen.dart';
+import 'package:trailquest_mobile/features/route_selected_map/ui/route_selected_map.dart';
+import 'package:trailquest_mobile/features/welcome_page/ui/welcome_page_view.dart';
 import '../../../core/services/theme_service.dart';
 import '../../common/widgets/bottom_navigation_bar.dart';
 import '../../user/ui/user_profile.dart';
@@ -15,11 +19,6 @@ class _GeneralSettingsPageState extends State<GeneralSettingsPage> {
   late bool _darkModeEnabled;
   late ThemeService _themeService;
 
-  final List<_OfflineMap> _offlineMaps = [
-    _OfflineMap(name: 'Olympic National Park', size: '1.2 GB'),
-    _OfflineMap(name: 'Cascade Range – North', size: '0.8 GB'),
-    _OfflineMap(name: 'Mount Rainier Area', size: '0.4 GB'),
-  ];
 
   @override
   void initState() {
@@ -28,111 +27,9 @@ class _GeneralSettingsPageState extends State<GeneralSettingsPage> {
     _darkModeEnabled = _themeService.isDarkMode;
   }
 
-  void _showOfflineMaps() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) => StatefulBuilder(
-        builder: (ctx, setModalState) => Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFF3D6B4A),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          padding: const EdgeInsets.fromLTRB(24, 16, 24, 40),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _DragHandle(),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  const Icon(Icons.map_outlined, color: Colors.white, size: 22),
-                  const SizedBox(width: 10),
-                  const Text(
-                    'Offline Maps',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  const Spacer(),
-                  Text(
-                    '${_totalOfflineSize()} total',
-                    style: const TextStyle(
-                        color: Color(0xFFD4E5DB), fontSize: 13),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              ..._offlineMaps.map(
-                (map) => Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 14),
-                    decoration: BoxDecoration(
-                        color: const Color(0xFF4A7C59),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.download_done,
-                            color: Color(0xFF9DB92C), size: 20),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(map.name,
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600)),
-                              Text(map.size,
-                                  style: const TextStyle(
-                                      color: Color(0xFFD4E5DB),
-                                      fontSize: 12)),
-                            ],
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.delete_outline,
-                              color: Color(0xFFFF6B6B), size: 20),
-                          onPressed: () {
-                            setModalState(() => _offlineMaps.remove(map));
-                            setState(() {});
-                            _showSnackBar('${map.name} deleted');
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              _PrimaryButton(
-                label: 'Download New Map',
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                  _showSnackBar('Map download feature coming soon');
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
-  String _totalOfflineSize() {
-    if (_offlineMaps.isEmpty) return '0 GB';
-    final total = _offlineMaps.fold(0.0, (sum, m) {
-      final value = double.tryParse(m.size.replaceAll(' GB', '')) ?? 0;
-      return sum + value;
-    });
-    return '${total.toStringAsFixed(1)} GB';
-  }
+
+
 
   void _showHelpSupport() {
     _showInfoDialog(
@@ -374,37 +271,6 @@ class _GeneralSettingsPageState extends State<GeneralSettingsPage> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  GestureDetector(
-                    onTap: _showOfflineMaps,
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                          color: const Color(0xFF5A9070),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(children: [
-                            const Icon(Icons.map_outlined, color: Colors.white),
-                            const SizedBox(width: 12),
-                            const Text('Offline Maps',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600)),
-                          ]),
-                          Row(children: [
-                            Text(_totalOfflineSize(),
-                                style: const TextStyle(
-                                    color: Color(0xFFD4E5DB), fontSize: 13)),
-                            const SizedBox(width: 8),
-                            const Icon(Icons.chevron_right,
-                                color: Color(0xFFD4E5DB), size: 20),
-                          ]),
-                        ],
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -476,18 +342,13 @@ class _GeneralSettingsPageState extends State<GeneralSettingsPage> {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (_) => const UserProfilePage()),
             );
-          }
+          } 
         },
       ),
     );
   }
 }
 
-class _OfflineMap {
-  final String name;
-  final String size;
-  _OfflineMap({required this.name, required this.size});
-}
 
 class _SettingItem extends StatelessWidget {
   final IconData icon;

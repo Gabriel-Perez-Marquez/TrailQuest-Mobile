@@ -24,12 +24,6 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
   late String _membershipStatus;
   late String _userAvatar;
 
-  // Notification preferences state
-  bool _notifTrailUpdates = true;
-  bool _notifAchievements = true;
-  bool _notifWeatherAlerts = false;
-  bool _notifNewRoutes = true;
-
   @override
   void initState() {
     super.initState();
@@ -164,91 +158,6 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                   }
                   Navigator.of(ctx).pop();
                   _showSnackBar('Password changed successfully');
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _showNotificationPreferences() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) => StatefulBuilder(
-        builder: (ctx, setModalState) => Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFF3D6B4A),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          padding: const EdgeInsets.fromLTRB(24, 16, 24, 40),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _DragHandle(),
-              const SizedBox(height: 20),
-              const Text(
-                'Notification Preferences',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Choose which notifications you want to receive.',
-                style: TextStyle(color: Color(0xFFD4E5DB), fontSize: 13),
-              ),
-              const SizedBox(height: 24),
-              _NotifToggle(
-                title: 'Trail Updates',
-                subtitle: 'Closures, conditions and new photos',
-                value: _notifTrailUpdates,
-                onChanged: (v) {
-                  setModalState(() => _notifTrailUpdates = v);
-                  setState(() => _notifTrailUpdates = v);
-                },
-              ),
-              const SizedBox(height: 12),
-              _NotifToggle(
-                title: 'Achievements',
-                subtitle: 'Badges and milestones unlocked',
-                value: _notifAchievements,
-                onChanged: (v) {
-                  setModalState(() => _notifAchievements = v);
-                  setState(() => _notifAchievements = v);
-                },
-              ),
-              const SizedBox(height: 12),
-              _NotifToggle(
-                title: 'Weather Alerts',
-                subtitle: 'Severe weather near saved trails',
-                value: _notifWeatherAlerts,
-                onChanged: (v) {
-                  setModalState(() => _notifWeatherAlerts = v);
-                  setState(() => _notifWeatherAlerts = v);
-                },
-              ),
-              const SizedBox(height: 12),
-              _NotifToggle(
-                title: 'New Routes',
-                subtitle: 'Freshly added trails in your area',
-                value: _notifNewRoutes,
-                onChanged: (v) {
-                  setModalState(() => _notifNewRoutes = v);
-                  setState(() => _notifNewRoutes = v);
-                },
-              ),
-              const SizedBox(height: 28),
-              _PrimaryButton(
-                label: 'Save',
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                  _showSnackBar('Notification preferences saved');
                 },
               ),
             ],
@@ -475,10 +384,6 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                       title: 'Change Password',
                       onTap: _showChangePassword),
                   const SizedBox(height: 12),
-                  _SettingItem(
-                      icon: Icons.notifications_none,
-                      title: 'Notification Preferences',
-                      onTap: _showNotificationPreferences),
                 ],
               ),
             ),

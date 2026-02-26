@@ -168,94 +168,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       ],
                     ),
                     const SizedBox(height: 24),
-                    // Stats
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _StatItem(
-                          value: '142',
-                          label: 'KM HIKED',
-                        ),
-                        _StatItem(
-                          value: '28',
-                          label: 'HIKES',
-                        ),
-                        _StatItem(
-                          value: '12',
-                          label: 'BADGES',
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
             ),
-            // Earned Badges Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Earned Badges',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          // Handle view all badges
-                        },
-                        child: const Text(
-                          'View all',
-                          style: TextStyle(
-                            color: Color(0xFF9DB92C),
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    height: 100,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        _BadgeItem(
-                          icon: Icons.wb_sunny,
-                          label: 'Early Bird',
-                          iconColor: const Color(0xFFFDB833),
-                        ),
-                        const SizedBox(width: 12),
-                        _BadgeItem(
-                          icon: Icons.terrain,
-                          label: 'Peak Hunter',
-                          iconColor: const Color(0xFF5DADE2),
-                        ),
-                        const SizedBox(width: 12),
-                        _BadgeItem(
-                          icon: Icons.nature,
-                          label: 'Tree Hugger',
-                          iconColor: const Color(0xFF52BE80),
-                        ),
-                        const SizedBox(width: 12),
-                        _BadgeItem(
-                          icon: Icons.water_drop,
-                          label: 'Rain Rider',
-                          iconColor: const Color(0xFFAED6F1),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+
             const SizedBox(height: 24),
             // Recent Activity Section
             Padding(
@@ -274,18 +191,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           color: Colors.black,
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          // Handle view history
-                        },
-                        child: const Text(
-                          'History',
-                          style: TextStyle(
-                            color: Color(0xFF9DB92C),
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
+
                     ],
                   ),
                   const SizedBox(height: 12),
