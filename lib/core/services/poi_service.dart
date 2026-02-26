@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:trailquest_mobile/core/models/poi.dart';
 import 'package:trailquest_mobile/core/services/token_service.dart';
@@ -12,24 +13,15 @@ class PoiService {
     try {
       
       final url = Uri.parse('$baseUrl/pois/$id');
-      
-      final response = await http.get(
-        url,
-        // headers: {
-        //   'Authorization': 'Bearer TU_TOKEN_AQUI',
-        //   'Content-Type': 'application/json',
-        // },
-      );
+      final response = await http.get(url);
 
       if (response.statusCode == 200) {
         return POI.fromJson(json.decode(response.body));
-        
       } else if (response.statusCode == 404) {
         throw Exception('El punto de interés no existe.');
       } else {
         throw Exception('Error en el servidor: código ${response.statusCode}');
       }
-      
     } catch (e) {
       throw Exception('Fallo la conexión con la API: $e');
     }

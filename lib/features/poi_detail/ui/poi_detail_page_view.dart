@@ -71,7 +71,7 @@ class PoiDetailPageView extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                poi.title,
+                                poi.name,
                                 style: const TextStyle(
                                   fontSize: 32,
                                   fontWeight: FontWeight.bold,
@@ -119,16 +119,23 @@ class PoiDetailPageView extends StatelessWidget {
                         ),
                         const SizedBox(height: 24),
 
-                        // Chips
+                        // Chips (solo se muestran si vienen del backend)
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              _buildChip(Icons.terrain_outlined, poi.difficulty),
-                              const SizedBox(width: 12),
-                              _buildChip(Icons.timer_outlined, poi.duration),
-                              const SizedBox(width: 12),
-                              _buildChip(Icons.water_drop_outlined, poi.type),
+                              if (poi.difficulty != null && poi.difficulty!.isNotEmpty)
+                                _buildChip(Icons.terrain_outlined, poi.difficulty!),
+                              if (poi.duration != null && poi.duration!.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 12),
+                                  child: _buildChip(Icons.timer_outlined, poi.duration!),
+                                ),
+                              if (poi.type != null && poi.type!.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 12),
+                                  child: _buildChip(Icons.water_drop_outlined, poi.type!),
+                                ),
                             ],
                           ),
                         ),
@@ -146,7 +153,7 @@ class PoiDetailPageView extends StatelessWidget {
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          poi.description,
+                          poi.description ?? 'Sin descripción disponible.',
                           style: const TextStyle(
                             fontSize: 15,
                             color: greyText,
